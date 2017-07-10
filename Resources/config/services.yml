@@ -31,7 +31,7 @@ services:
         class: GoDisco\AclTreeBundle\Security\Helper\AclTreeHelper
         arguments:
             doctrine:           "@doctrine.orm.entity_manager"
-            securityContext:    "@security.context"
+            securityContext:    "@security.token_storage"
             aclReader:          "@acl.tree.reader"
             aclConnection:      "@security.acl.dbal.connection"
             maskBuilderClass:   "%security.acl.mask_builder%"
