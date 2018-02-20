@@ -4,10 +4,7 @@ parameters:
 services:
     acl.tree.reader:
         class: GoDisco\AclTreeBundle\Annotation\AclParentReader
-        arguments:
-            doctrine:                           "@doctrine"
-            reader:                             "@annotation_reader"
-            accessor:                           "@property_accessor"
+        arguments: ["@doctrine","@annotation_reader","@property_accessor"]
 
     security.acl.user_permission.map:
         class: %security.acl.permission.map.class%
@@ -15,31 +12,14 @@ services:
     acl.tree.voter:
         class:      GoDisco\AclTreeBundle\Security\Authorization\Voter\AclTreeVoter
         public:     false
-        arguments:
-            aclProvider:                        "@security.acl.provider"
-            oidRetrievalStrategy:               "@security.acl.object_identity_retrieval_strategy"
-            sidRetrievalStrategy:               "@security.acl.security_identity_retrieval_strategy"
-            permissionMap:                      "@security.acl.user_permission.map"
-            logger:                             "@logger"
-            allowIfObjectIdentityUnavailable:   true
-            doctrine:                           "@doctrine"
-            aclReader:                          "@acl.tree.reader"
+        arguments: ["@security.acl.provider","@security.acl.object_identity_retrieval_strategy","@security.acl.security_identity_retrieval_strategy","@security.acl.user_permission.map","@logger", true,"@doctrine","@acl.tree.reader"]
         tags:
            - { name: security.voter }
 
     acl.tree.helper:
         class: GoDisco\AclTreeBundle\Security\Helper\AclTreeHelper
-        arguments:
-            doctrine:           "@doctrine.orm.entity_manager"
-            securityContext:    "@security.token_storage"
-            aclReader:          "@acl.tree.reader"
-            aclConnection:      "@security.acl.dbal.connection"
-            maskBuilderClass:   "%security.acl.mask_builder%"
+        arguments: ["@doctrine.orm.entity_manager","@security.token_storage","@acl.tree.reader","@security.acl.dbal.connection","%security.acl.mask_builder%"]
 
     acl.object.users:
         class: GoDisco\AclTreeBundle\Security\Helper\AclUsersHelper
-        arguments:
-            doctrine:           "@doctrine.orm.entity_manager"
-            accessor:           "@property_accessor"
-            aclConnection:      "@security.acl.dbal.connection"
-            maskBuilderClass:   "%security.acl.mask_builder%"
+        arguments: ["@doctrine.orm.entity_manager","@property_accessor","@security.acl.dbal.connection","%security.acl.mask_builder%"]
