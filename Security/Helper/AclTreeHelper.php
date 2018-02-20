@@ -42,7 +42,7 @@ class AclTreeHelper
      * @param Connection $aclConnection acl connection
      * @param string $maskBuilderClass - Mask builder class name
      */
-    function __construct(EntityManagerInterface $em, SecurityContextInterface $securityContext, AclParentReader $aclReader, Connection $aclConnection, $maskBuilderClass)
+    function __construct(EntityManagerInterface $em, $securityContext, AclParentReader $aclReader, Connection $aclConnection, $maskBuilderClass)
     {
         $this->em = $em;
         $this->securityContext = $securityContext;
